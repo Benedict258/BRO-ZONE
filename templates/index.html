@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bro Code Encoder/Decoder</title>
+</head>
+<body>
+    <h1>Welcome to the Bro Zone!</h1>
+
+    <label for="password">Enter Bro Code Password:</label>
+    <input type="password" id="password"><br><br>
+
+    <label for="text">Text to Encode/Decode:</label>
+    <input type="text" id="text"><br><br>
+
+    <label for="key">Key:</label>
+    <input type="number" id="key"><br><br>
+
+    <label for="operation">Choose Operation:</label>
+    <select id="operation">
+        <option value="encode">Encode</option>
+        <option value="decode">Decode</option>
+    </select><br><br>
+
+    <button onclick="sendRequest()">Submit</button>
+
+    <h3 id="result"></h3>
+
+    <script>
+        async function sendRequest() {
+            const password = document.getElementById('password').value;
+            const text = document.getElementById('text').value;
+            const key = document.getElementById('key').value;
+            const operation = document.getElementById('operation').value;
+
+            const response = await fetch('https://brozone.onrender.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password, text, key, operation })
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = result.message + ": " + (result.result || "");
+        }
+    </script>
+</body>
+</html>
